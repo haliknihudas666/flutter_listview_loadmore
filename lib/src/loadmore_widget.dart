@@ -365,7 +365,7 @@ abstract class LoadMoreDelegate {
   Duration loadMoreDelay() => Duration(milliseconds: _loadMoreDelay);
 
   Widget buildChild(LoadMoreStatus status,
-      {LoadMoreTextBuilder builder = DefaultLoadMoreTextBuilder.chinese});
+      {LoadMoreTextBuilder builder = DefaultLoadMoreTextBuilder.english});
 }
 
 class DefaultLoadMoreDelegate extends LoadMoreDelegate {
@@ -373,15 +373,15 @@ class DefaultLoadMoreDelegate extends LoadMoreDelegate {
 
   @override
   Widget buildChild(LoadMoreStatus status,
-      {LoadMoreTextBuilder builder = DefaultLoadMoreTextBuilder.chinese}) {
+      {LoadMoreTextBuilder builder = DefaultLoadMoreTextBuilder.english}) {
     String text = builder(status);
     if (status == LoadMoreStatus.fail) {
       return Container(
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.white),
+        ),
       );
-    }
-    if (status == LoadMoreStatus.idle) {
-      return Text(text);
     }
     if (status == LoadMoreStatus.loading) {
       return Container(
@@ -398,17 +398,17 @@ class DefaultLoadMoreDelegate extends LoadMoreDelegate {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(text),
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
       );
     }
-    if (status == LoadMoreStatus.nomore) {
-      return Text(text);
-    }
 
-    return Text(text);
+    return Container();
   }
 }
 
@@ -439,16 +439,16 @@ String _buildEnglishText(LoadMoreStatus status) {
   String text;
   switch (status) {
     case LoadMoreStatus.fail:
-      text = "load fail, tap to retry";
+      text = "Tap to Load More";
       break;
     case LoadMoreStatus.idle:
-      text = "wait for loading";
+      text = "";
       break;
     case LoadMoreStatus.loading:
-      text = "loading, wait for moment ...";
+      text = "Loading";
       break;
     case LoadMoreStatus.nomore:
-      text = "no more data";
+      text = "";
       break;
     default:
       text = "";
